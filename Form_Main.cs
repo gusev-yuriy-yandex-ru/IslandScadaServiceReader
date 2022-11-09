@@ -74,7 +74,7 @@ namespace IslandScadaServiceReader
             // Деактивация таймера
             tmrStart.Enabled = false;
             // Открытие файла лога
-            FileStream fs = File.Open("..\\data\\IslandScadaServiceReaderLog.txt", FileMode.Append, FileAccess.Write, FileShare.None);
+            FileStream fs = File.Open("..\\data\\IslandScadaServiceReaderLog\\" + DateTime.Now.ToShortDateString() + ".txt", FileMode.Append, FileAccess.Write, FileShare.None);
             // Лог - Запуск приложения
             Byte[] info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " : Запуск приложения.\n");
             fs.Write(info, 0, info.Length);
@@ -221,6 +221,7 @@ namespace IslandScadaServiceReader
                         {
                             byte B = Convert.ToByte(RequestBody_reader.ReadByte(i));
                             dsw.Position = i;
+                            dsw.WriteByte(Convert.ToByte(B));
                             string sb = B.ToString("X");
                             if (sb.Length > 2) sb = sb.Substring(0, 2);
                             if (sb.Length < 2) sb = "0" + sb;
