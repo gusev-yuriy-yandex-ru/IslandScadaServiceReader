@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IslandScadaServiceReader", "IslandScadaServiceReader.csproj", "{A5AFB2DD-74BE-44CE-8B5B-23B01C393792}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5AFB2DD-74BE-44CE-8B5B-23B01C393792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5AFB2DD-74BE-44CE-8B5B-23B01C393792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5AFB2DD-74BE-44CE-8B5B-23B01C393792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5AFB2DD-74BE-44CE-8B5B-23B01C393792}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5CD1340-136F-48E9-B40D-A7C182E47156}
+	EndGlobalSection
+EndGlobal
