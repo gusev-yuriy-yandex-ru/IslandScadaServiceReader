@@ -106,7 +106,7 @@ namespace IslandScadaServiceReader
                         info = new UTF8Encoding(true).GetBytes("Команда записать область.\n");
                         fs.Write(info, 0, info.Length);
                     }
-                    if(Command == 1 | Command == 1)
+                    if(Command == 1 | Command == 2)
                     {
                         // Чтение AMS Net ID
                         byte B = 0;
@@ -198,6 +198,9 @@ namespace IslandScadaServiceReader
             {
                 try
                 {
+
+                    //MessageBox.Show("Контрольная точка №1.");
+
                     TcAdsClient tcClientWrite;
                     tcClientWrite = new TcAdsClient();
                     var dsw = new AdsStream(Size + 10);
@@ -234,6 +237,9 @@ namespace IslandScadaServiceReader
                         int B = 255;
                         ResultIsOk_writer.Write(0, Convert.ToByte(B));
                     }
+
+                    //MessageBox.Show("Успешно.");
+
                     //Close();
                 }
                 catch { }
