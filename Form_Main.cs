@@ -76,7 +76,7 @@ namespace IslandScadaServiceReader
             // Открытие файла лога
             FileStream fs = File.Open("..\\data\\IslandScadaServiceReaderLog\\" + DateTime.Now.ToShortDateString() + ".txt", FileMode.Append, FileAccess.Write, FileShare.None);
             // Лог - Запуск приложения
-            Byte[] info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " : Запуск приложения.\n");
+            Byte[] info = new UTF8Encoding(true).GetBytes("\n" + DateTime.Now.ToString() + " : Запуск приложения.\n");
             fs.Write(info, 0, info.Length);
             // Получение данных запроса
             bool IsGood = false;
@@ -91,56 +91,52 @@ namespace IslandScadaServiceReader
                     if (Command == 0)
                     {
                         rtbResult.Text += "     Нет команды.\n";
-                        info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Нет команды.\n");
+                        info = new UTF8Encoding(true).GetBytes("Нет команды.\n");
                         fs.Write(info, 0, info.Length);
                     }
                     if (Command == 1) 
                     {
                         rtbResult.Text += "     Команда прочитать область.\n";
-                        info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Команда прочитать область.\n");
+                        info = new UTF8Encoding(true).GetBytes("Команда прочитать область.\n");
                         fs.Write(info, 0, info.Length);
                     }
                     if (Command == 2)
                     {
                         rtbResult.Text += "     Команда записать область.\n";
-                        info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Команда записать область.\n");
+                        info = new UTF8Encoding(true).GetBytes("Команда записать область.\n");
                         fs.Write(info, 0, info.Length);
                     }
-                    // Чтение AMS Net ID
-                    byte B = 0;
-                    AmsNetID = "";
-                    reader.Read<byte>(1, out B);
-                    if (B > 0)
-                        for (int i = 0; i < B; i++)
-                        {
-                            char C;
-                            reader.Read<char>((i + 1) * 2, out C);
-                            AmsNetID += Convert.ToChar(C);
-                        }
-                    rtbResult.Text += "     AMS Net ID = " + AmsNetID + "\n";
-                    info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      AMS Net ID = " + AmsNetID + "\n");
-                    fs.Write(info, 0, info.Length);
-                    // Чтение номера порта
-                    reader.Read<UInt16>((AmsNetID.Length + 1) * 2, out PortNum);
-                    rtbResult.Text += "     Port = " + Convert.ToString(PortNum) + "\n";
-                    info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Port = " + Convert.ToString(PortNum) + "\n");
-                    fs.Write(info, 0, info.Length);
-                    // Чтение номера группы
-                    reader.Read<UInt16>((AmsNetID.Length + 2) * 2, out Goup);
-                    rtbResult.Text += "     Ggoup = " + Convert.ToString(Goup) + "\n";
-                    info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Ggoup = " + Convert.ToString(Goup) + "\n");
-                    fs.Write(info, 0, info.Length);
-                    // Чтение смещения
-                    reader.Read<UInt16>((AmsNetID.Length + 3) * 2, out Offset);
-                    rtbResult.Text += "     Offset = " + Convert.ToString(Offset) + "\n";
-                    info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Offset = " + Convert.ToString(Offset) + "\n");
-                    fs.Write(info, 0, info.Length);
-                    // Чтение длины
-                    reader.Read<UInt16>((AmsNetID.Length + 4) * 2, out Size);
-                    rtbResult.Text += "     Size = " + Convert.ToString(Size) + "\n";
-                    info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Size = " + Convert.ToString(Size) + "\n");
-                    fs.Write(info, 0, info.Length);
-                    IsGood = true;
+                    if(Command == 1 | Command == 1)
+                    {
+                        // Чтение AMS Net ID
+                        byte B = 0;
+                        AmsNetID = "";
+                        reader.Read<byte>(1, out B);
+                        if (B > 0)
+                            for (int i = 0; i < B; i++)
+                            {
+                                char C;
+                                reader.Read<char>((i + 1) * 2, out C);
+                                AmsNetID += Convert.ToChar(C);
+                            }
+                        rtbResult.Text += "     AMS Net ID = " + AmsNetID + "\n";
+                        // Чтение номера порта
+                        reader.Read<UInt16>((AmsNetID.Length + 1) * 2, out PortNum);
+                        rtbResult.Text += "     Port = " + Convert.ToString(PortNum) + "\n";
+                        // Чтение номера группы
+                        reader.Read<UInt16>((AmsNetID.Length + 2) * 2, out Goup);
+                        rtbResult.Text += "     Ggoup = " + Convert.ToString(Goup) + "\n";
+                        // Чтение смещения
+                        reader.Read<UInt16>((AmsNetID.Length + 3) * 2, out Offset);
+                        rtbResult.Text += "     Offset = " + Convert.ToString(Offset) + "\n";
+                        // Чтение длины
+                        reader.Read<UInt16>((AmsNetID.Length + 4) * 2, out Size);
+                        rtbResult.Text += "     Size = " + Convert.ToString(Size) + "\n";
+                        info = new UTF8Encoding(true).GetBytes("Adress = " + AmsNetID + ":" + Convert.ToString(PortNum) + " P=" + Convert.ToString(Goup)
+                                + " Off:" + Convert.ToString(Offset) + " S:" + Convert.ToString(Size) + "\n");
+                        fs.Write(info, 0, info.Length);
+                        IsGood = true;
+                    }
                 }
             }
             catch { }
@@ -171,8 +167,6 @@ namespace IslandScadaServiceReader
                     MemoryMappedViewAccessor Result_writer = Result.CreateViewAccessor(0, Size, MemoryMappedFileAccess.ReadWrite);
                     using (MemoryMappedViewAccessor ResultWriter = Result.CreateViewAccessor(0, Size))
                     {
-                        rtbResult.Text += "     Result = 0x";
-                        info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Result = 0x");
                         fs.Write(info, 0, info.Length);
                         for (int i = 0; i < Size; i++)
                         {
@@ -183,11 +177,9 @@ namespace IslandScadaServiceReader
                             if (sb.Length > 2) sb = sb.Substring(0, 2);
                             if (sb.Length < 2) sb = "0" + sb;
                             rtbResult.Text += sb;
-                            info = new UTF8Encoding(true).GetBytes(sb);
-                            fs.Write(info, 0, info.Length);
                         }
                         rtbResult.Text += "H\n";
-                        info = new UTF8Encoding(true).GetBytes("H\n");
+                        info = new UTF8Encoding(true).GetBytes("Успешно.\n");
                         fs.Write(info, 0, info.Length);
                     }
                     // Открытие области с отчетом о правильности результтов
@@ -214,8 +206,6 @@ namespace IslandScadaServiceReader
                     MemoryMappedViewAccessor RequestBody_reader = RequestBody.CreateViewAccessor(0, Size, MemoryMappedFileAccess.Read);
                     byte[] Buffer = new byte[Size + 4];
                     rtbResult.Text += "     Body = 0x";
-                    info = new UTF8Encoding(true).GetBytes(DateTime.Now.ToString() + " :      Body = 0x");
-                    fs.Write(info, 0, info.Length);
                     if (Size > 0)
                         for (UInt16 i = 0; i < Size; i++)
                         {
@@ -226,11 +216,9 @@ namespace IslandScadaServiceReader
                             if (sb.Length > 2) sb = sb.Substring(0, 2);
                             if (sb.Length < 2) sb = "0" + sb;
                             rtbResult.Text += sb;
-                            info = new UTF8Encoding(true).GetBytes(sb);
-                            fs.Write(info, 0, info.Length);
                         }
                     rtbResult.Text += "H\n";
-                    info = new UTF8Encoding(true).GetBytes("H\n");
+                    info = new UTF8Encoding(true).GetBytes("Успешно.\n");
                     fs.Write(info, 0, info.Length);
                     // Выпролнениезапроса устройству
                     tcClientWrite.Connect(AmsNetID, PortNum);
